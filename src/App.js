@@ -5,11 +5,12 @@ import { useEffect,useState } from 'react';
 function App() {
   
   const [resourceType, setresourceType] = useState('users')
+  const [items, setitems] = useState([])
   
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/${resourceType}`)
   .then(response => response.json())
-  .then(json => console.log(json))
+  .then(json => setitems(json))
     
   },[resourceType])
   
@@ -20,7 +21,23 @@ function App() {
         Fetch user</Button>
       <Button type="primary" onClick={()=>setresourceType('photos')}>
         Fetch photos</Button>
-        <h1>View Fetched Resource in console later it  will be display here :{resourceType}</h1>
+        <h1>{resourceType}</h1>
+        
+           
+           {items.map(item=>{
+            return(
+           <>
+              <p>{item.name}</p>
+           
+              <img src={item.thumbnailUrl} alt={item.title} ></img>
+              
+            
+            </>
+              )
+                    })}
+                  
+        
+      
     </div>
   );
 }
