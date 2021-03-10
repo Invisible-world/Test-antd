@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import { Button } from 'antd';
 import './App.css';
+import { useEffect,useState } from 'react';
 
 function App() {
+  
+  const [resourceType, setresourceType] = useState('users')
+  
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/${resourceType}`)
+  .then(response => response.json())
+  .then(json => console.log(json))
+    
+  },[resourceType])
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Button type="secondary" onClick={()=>setresourceType('users')}>
+        Fetch user</Button>
+      <Button type="primary" onClick={()=>setresourceType('photos')}>
+        Fetch photos</Button>
+        <h1>View Fetched Resource in console later it  will be display here :{resourceType}</h1>
     </div>
   );
 }
