@@ -1,45 +1,35 @@
-import { Button } from 'antd';
+// import { Button } from 'antd';
 import './App.css';
 import { useEffect,useState } from 'react';
+import Navbar from './Components/Navbar';
+import Userlist from './Components/Userlist';
 
 function App() {
-  
-  const [resourceType, setresourceType] = useState('users')
-  const [items, setitems] = useState([])
+  const [click,setClick]= useState(false)
+  const [resourceType, setresourceType] = useState('')
+  const [items, setItems] = useState([])
   
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/${resourceType}`)
   .then(response => response.json())
-  .then(json => setitems(json))
+  .then(json => setItems(json))
     
   },[resourceType])
+
+ 
   
   return (
     <div className="App">
-      
-      <Button type="secondary" onClick={()=>setresourceType('users')}>
-        Fetch user</Button>
-      <Button type="primary" onClick={()=>setresourceType('photos')}>
-        Fetch photos</Button>
-        <h1>{resourceType}</h1>
-        
-           
-           {items.map(item=>{
-            return(
-           <>
-              <p>{item.name}</p>
-           
-              <img src={item.thumbnailUrl} alt={item.title} ></img>
-              
-            
-            </>
-              )
-                    })}
-                  
-        
-      
-    </div>
-  );
+     <Navbar resourceType={resourceType} setresourceType={setresourceType} items={items} click={click} 
+     setClick={setClick} /> 
+      {click &&  items.map(item=>{
+      return (
+      <Userlist item={item} key={item.userId}/>
+      ) 
+     })
+}
+     </div>  
+      );
 }
 
 export default App;
